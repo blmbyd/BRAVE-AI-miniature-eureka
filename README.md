@@ -35,6 +35,12 @@ Collects the past 24 hours of repository activity — issues, pull requests, rel
 
 Reviews the PR diff for correctness, clarity, security concerns, and convention adherence, then posts a constructive review comment with specific file and line citations.
 
+### 4. Daily Repo Status — Discussions ([`daily-repo-status-discussions.md`](.github/workflows/daily-repo-status-discussions.md))
+
+**Trigger:** Runs on a daily schedule (or manually via `workflow_dispatch`).
+
+Same activity collection and report structure as the issue-based daily status workflow, but publishes the report as a GitHub Discussion in the `announcements` category instead of creating an issue. Older daily discussions are automatically closed when a new one is posted. Fallback to issue creation is disabled, so failures surface explicitly.
+
 ## Quick Start
 
 ### Prerequisites
@@ -63,8 +69,11 @@ Reviews the PR diff for correctness, clarity, security concerns, and convention 
    ```bash
    gh aw compile .github/workflows/issue-triage.md
    gh aw compile .github/workflows/daily-repo-status.md
+   gh aw compile .github/workflows/daily-repo-status-discussions.md
    gh aw compile .github/workflows/pr-reviewer.md
    ```
+
+   > Note: `daily-repo-status-discussions.md` requires GitHub Discussions to be enabled on the repository and an announcement-capable `announcements` category to exist.
 
 3. **Commit and push** the generated `.lock.yml` files:
 
@@ -79,8 +88,11 @@ Reviews the PR diff for correctness, clarity, security concerns, and convention 
 ### Running a workflow manually
 
 ```bash
-# Trigger the daily status report right now
+# Trigger the issue-based daily status report right now
 gh aw run daily-repo-status
+
+# Trigger the discussion-based daily status report right now
+gh aw run daily-repo-status-discussions
 ```
 
 ## Learn More
