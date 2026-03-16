@@ -15,7 +15,7 @@ The Markdown source is compiled to a `.lock.yml` file using the `gh aw compile` 
 
 ## Demo Workflows
 
-This repository contains three example agentic workflows that demonstrate the three main trigger types:
+This repository contains example agentic workflows that demonstrate several trigger and reporting patterns:
 
 ### 1. 🏷️ Issue Triage ([`issue-triage.md`](.github/workflows/issue-triage.md))
 
@@ -40,6 +40,12 @@ Reviews the PR diff for correctness, clarity, security concerns, and convention 
 **Trigger:** Runs on a daily schedule (or manually via `workflow_dispatch`).
 
 Same activity collection and report structure as the issue-based daily status workflow, but publishes the report as a GitHub Discussion in the `announcements` category instead of creating an issue. Older daily discussions are automatically closed when a new one is posted. Fallback to issue creation is disabled, so failures surface explicitly.
+
+### 5. Weekly Issue Status — Discussions ([`weekly-issue-status-discussions.md`](.github/workflows/weekly-issue-status-discussions.md))
+
+**Trigger:** Runs weekly on Monday mornings around 06:00 UTC (or manually via `workflow_dispatch`).
+
+Collects only issue activity from the past 7 days and publishes a GitHub Discussion with two views: updates per users and updates per project hierarchy. Project rollups start from issues whose type is `Project` and recursively include all linked child issues and sub-issues.
 
 ## Quick Start
 
@@ -70,10 +76,11 @@ Same activity collection and report structure as the issue-based daily status wo
    gh aw compile .github/workflows/issue-triage.md
    gh aw compile .github/workflows/daily-repo-status.md
    gh aw compile .github/workflows/daily-repo-status-discussions.md
+   gh aw compile .github/workflows/weekly-issue-status-discussions.md
    gh aw compile .github/workflows/pr-reviewer.md
    ```
 
-   > Note: `daily-repo-status-discussions.md` requires GitHub Discussions to be enabled on the repository and an announcement-capable `announcements` category to exist.
+   > Note: `daily-repo-status-discussions.md` and `weekly-issue-status-discussions.md` require GitHub Discussions to be enabled on the repository and an announcement-capable `announcements` category to exist.
 
 3. **Commit and push** the generated `.lock.yml` files:
 
@@ -93,6 +100,9 @@ gh aw run daily-repo-status
 
 # Trigger the discussion-based daily status report right now
 gh aw run daily-repo-status-discussions
+
+# Trigger the weekly issue discussion report right now
+gh aw run weekly-issue-status-discussions
 ```
 
 ## Learn More
