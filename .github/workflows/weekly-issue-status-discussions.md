@@ -1,9 +1,9 @@
 ---
 description: |
   Generates a weekly issue-focused status report for the repository as a GitHub Discussion.
-  Collects issue activity from the past 7 days and summarizes it in two views:
-  updates per user and updates per project hierarchy rooted at issues whose
-  type is set to Project.
+  Collects issue activity from the past 7 days and summarizes it in four sections:
+  updates per user, updates per project hierarchy, Project Health, and
+  Recommended Next Steps.
 
 on:
   schedule: weekly on monday around 06:00 utc
@@ -58,7 +58,7 @@ Use the available GitHub issue tools to gather the following information for the
 
 ## Report format
 
-Structure the report as a GitHub Discussion with exactly these two top-level sections and no additional top-level sections.
+Structure the report as a GitHub Discussion with exactly these four top-level sections and no additional top-level sections.
 
 ### Updates Per Users
 
@@ -82,6 +82,27 @@ For each active project hierarchy, summarize:
 - Notable issue-thread updates that changed project progress, blockers, or next steps
 
 Make it clear when activity happened in nested sub-issues rather than on the root project issue itself.
+
+### Project Health
+
+Summarize the overall issue-based health of the repository and its active project hierarchies.
+
+Focus only on signals that come from issues and project issue trees, such as:
+- Active versus quiet project hierarchies
+- Open blockers or unresolved questions visible in issue threads
+- Project trees with many open child issues or little recent movement
+- Any issue backlog patterns that need maintainer attention
+
+Do not mention pull requests, commits, releases, CI, or any non-issue signals in this section.
+
+### Recommended Next Steps
+
+Provide two or three concrete maintainer actions based only on the week's issue activity and project hierarchy state.
+
+Recommendations should:
+- Be actionable and specific
+- Reference issue follow-up needs, project blockers, or neglected project trees
+- Stay grounded in issue activity from the past 7 days
 
 ## Style guidelines
 
