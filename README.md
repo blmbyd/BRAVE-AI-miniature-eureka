@@ -53,6 +53,12 @@ Collects only issue activity from the past 7 days and publishes a GitHub Discuss
 
 Detects failed `.NET CI` workflow runs, collects job and step failure details, and creates a structured GitHub issue assigned to Copilot so the failure can be investigated and resolved — potentially automatically — without manual intervention. Runs that succeed, are cancelled, or time out produce no output.
 
+### 7. 🌐 Daily Status for Public Repository ([`daily-public-repo-status.md`](.github/workflows/daily-public-repo-status.md))
+
+**Trigger:** Manually via `workflow_dispatch` — requires a `target_repository` input in `owner/repo` format.
+
+Accepts any public GitHub repository as an input and collects the past 24 hours of activity — issues, pull requests, releases, and code changes — from that repository. Creates the status report issue in this controller repository, keeping a clear record of external repositories you are tracking without needing write access to any of them.
+
 ## Quick Start
 
 ### Prerequisites
@@ -86,6 +92,7 @@ Detects failed `.NET CI` workflow runs, collects job and step failure details, a
    gh aw compile .github/workflows/weekly-issue-status-discussions.md
    gh aw compile .github/workflows/pr-reviewer.md
    gh aw compile .github/workflows/cicd-failure-report.md
+   gh aw compile .github/workflows/daily-public-repo-status.md
    ```
 
    > Note: `daily-repo-status-discussions.md` and `weekly-issue-status-discussions.md` require GitHub Discussions to be enabled on the repository and an announcement-capable `announcements` category to exist.
@@ -113,6 +120,9 @@ gh aw run daily-repo-status-discussions
 
 # Trigger the weekly issue discussion report right now
 gh aw run weekly-issue-status-discussions
+
+# Analyze any public repository right now (replace with your target)
+gh aw run daily-public-repo-status -f target_repository=microsoft/vscode
 ```
 
 ## Learn More
