@@ -47,6 +47,12 @@ Same activity collection and report structure as the issue-based daily status wo
 
 Collects only issue activity from the past 7 days and publishes a GitHub Discussion with two views: updates per users and updates per project hierarchy. Project rollups start from issues whose type is `Project` and recursively include all linked child issues and sub-issues.
 
+### 6. 🚨 CI/CD Failure Report ([`cicd-failure-report.md`](.github/workflows/cicd-failure-report.md))
+
+**Trigger:** Automatically runs whenever the `.NET CI` workflow completes with a `failure` conclusion.
+
+Detects failed `.NET CI` workflow runs, collects job and step failure details, and creates a structured GitHub issue assigned to Copilot so the failure can be investigated and resolved — potentially automatically — without manual intervention. Runs that succeed, are cancelled, or time out produce no output.
+
 ## Quick Start
 
 ### Prerequisites
@@ -60,6 +66,7 @@ Collects only issue activity from the past 7 days and publishes a GitHub Discuss
 
 - Access to GitHub Agentic Workflows (currently in technical preview — sign up at <https://github.github.com/gh-aw/> — if the link returns a 404, the preview may not yet be available in your region; check the [GitHub Changelog](https://github.blog/changelog/) for the latest availability updates)
 - An AI model configured (GitHub Copilot, Anthropic Claude, or another supported provider)
+- **For `cicd-failure-report.md` only:** A fine-grained personal access token stored as the `GH_AW_AGENT_TOKEN` repository secret with `actions: read`, `contents: write`, `issues: write`, and `pull-requests: write` scopes. This is required for Copilot issue assignment; the default `GITHUB_TOKEN` does not have sufficient permissions. The Copilot coding agent must also be enabled for the repository or organization.
 
 ### Setup
 
@@ -78,9 +85,12 @@ Collects only issue activity from the past 7 days and publishes a GitHub Discuss
    gh aw compile .github/workflows/daily-repo-status-discussions.md
    gh aw compile .github/workflows/weekly-issue-status-discussions.md
    gh aw compile .github/workflows/pr-reviewer.md
+   gh aw compile .github/workflows/cicd-failure-report.md
    ```
 
    > Note: `daily-repo-status-discussions.md` and `weekly-issue-status-discussions.md` require GitHub Discussions to be enabled on the repository and an announcement-capable `announcements` category to exist.
+   >
+   > Note: `cicd-failure-report.md` will only trigger when a workflow named exactly `.NET CI` is present on the repository's default branch. If your CI workflow has a different name, update the `workflows:` list in the frontmatter before compiling.
 
 3. **Commit and push** the generated `.lock.yml` files:
 
