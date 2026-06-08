@@ -36,6 +36,9 @@ safe-outputs:
 
 permissions:
   actions: read
+  contents: read
+  issues: read
+  pull-requests: read
 
 timeout-minutes: 30
 ---
