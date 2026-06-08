@@ -11,14 +11,15 @@ on:
 
 permissions:
   contents: read
-  issues: write
+  issues: read
+
+strict: true
 
 network: defaults
 
 tools:
   github:
     toolsets: [issues, labels]
-    lockdown: false
 
 safe-outputs:
   add-labels:

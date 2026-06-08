@@ -72,6 +72,7 @@ Accepts any public GitHub repository as an input and collects the past 24 hours 
 
 - Access to GitHub Agentic Workflows (currently in technical preview — sign up at <https://github.github.com/gh-aw/> — if the link returns a 404, the preview may not yet be available in your region; check the [GitHub Changelog](https://github.blog/changelog/) for the latest availability updates)
 - An AI model configured (GitHub Copilot, Anthropic Claude, or another supported provider)
+- Initialize the repository after installing the extension: `gh aw init`
 - **For `cicd-failure-report.md` only:** A fine-grained personal access token stored as the `GH_AW_AGENT_TOKEN` repository secret with `actions: read`, `contents: write`, `issues: write`, and `pull-requests: write` scopes. This is required for Copilot issue assignment; the default `GITHUB_TOKEN` does not have sufficient permissions. The Copilot coding agent must also be enabled for the repository or organization.
 
 ### Setup
@@ -83,7 +84,13 @@ Accepts any public GitHub repository as an input and collects the past 24 hours 
    cd BRAVE-AI-miniature-eureka
    ```
 
-2. **Compile the workflows** to generate the required `.lock.yml` files:
+2. **Initialize repository scaffolding** (recommended by official setup docs):
+
+   ```bash
+   gh aw init
+   ```
+
+3. **Compile the workflows** to generate the required `.lock.yml` files:
 
    ```bash
    gh aw compile .github/workflows/issue-triage.md
@@ -99,7 +106,7 @@ Accepts any public GitHub repository as an input and collects the past 24 hours 
    >
    > Note: `cicd-failure-report.md` will only trigger when a workflow named exactly `.NET CI` is present on the repository's default branch. If your CI workflow has a different name, update the `workflows:` list in the frontmatter before compiling.
 
-3. **Commit and push** the generated `.lock.yml` files:
+4. **Commit and push** the generated `.lock.yml` files:
 
    ```bash
    git add .github/workflows/*.lock.yml
@@ -107,7 +114,7 @@ Accepts any public GitHub repository as an input and collects the past 24 hours 
    git push
    ```
 
-4. The workflows are now active. Open an issue or create a pull request to see the agents in action!
+5. The workflows are now active. Open an issue or create a pull request to see the agents in action!
 
 ### Running a workflow manually
 
@@ -124,6 +131,11 @@ gh aw run weekly-issue-status-discussions
 # Analyze any public repository right now (replace with your target)
 gh aw run daily-public-repo-status -f target_repository=microsoft/vscode
 ```
+
+### Recompilation rule
+
+- If you edit workflow **frontmatter**, re-run `gh aw compile` for that workflow.
+- If you edit only the Markdown instruction body, recompilation is not required.
 
 ## Learn More
 

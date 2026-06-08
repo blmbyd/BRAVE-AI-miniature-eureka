@@ -11,14 +11,15 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
+  pull-requests: read
+
+strict: true
 
 network: defaults
 
 tools:
   github:
     toolsets: [pull_requests, repos]
-    lockdown: false
 
 safe-outputs:
   add-pr-comment: {}

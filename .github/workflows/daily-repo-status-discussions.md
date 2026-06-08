@@ -15,12 +15,13 @@ permissions:
   pull-requests: read
   discussions: read
 
+strict: true
+
 network: defaults
 
 tools:
   github:
     toolsets: [issues, pull_requests, repos, discussions]
-    lockdown: false
 
 safe-outputs:
   create-discussion:
