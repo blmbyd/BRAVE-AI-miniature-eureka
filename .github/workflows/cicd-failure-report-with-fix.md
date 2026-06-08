@@ -36,7 +36,6 @@ safe-outputs:
 
 permissions:
   actions: read
-  contents: write
 
 timeout-minutes: 30
 ---
@@ -172,13 +171,14 @@ Analyse the fetched file content against the error message to determine the mini
 
 If the root cause cannot be determined with high confidence from the available information, do not guess — stop and note the limitation in the issue. A confident partial fix is acceptable; a speculative fix is not.
 
-### 4. Create the fix branch and pull request
+### 4. Open the fix pull request via safe-outputs
 
-If a fix was determined in step 3:
+If a fix was determined in step 3, use `safe-outputs.create-pull-request` to create the pull request. Provide:
 
-1. Create a new branch named `auto-fix/ci-failure-run-${{ github.event.workflow_run.run_number }}` from the commit SHA `${{ github.event.workflow_run.head_sha }}`.
-2. Commit the minimal set of file changes that address the root cause. Use a descriptive commit message such as `fix: resolve .NET CI failure from run #${{ github.event.workflow_run.run_number }}`.
-3. Open a pull request from the fix branch targeting the branch that failed (`${{ github.event.workflow_run.head_branch }}`).
+- A branch name of `auto-fix/ci-failure-run-${{ github.event.workflow_run.run_number }}`.
+- The base branch as the branch that failed (`${{ github.event.workflow_run.head_branch }}`).
+- The full set of file changes (paths and new content) that address the root cause.
+- A commit message such as `fix: resolve .NET CI failure from run #${{ github.event.workflow_run.run_number }}`.
 
 Structure the PR body with these sections:
 
