@@ -15,12 +15,6 @@ on:
     types: [completed]
     branches: ["**"]
 
-permissions:
-  actions: read
-  contents: write
-  issues: write
-  pull-requests: write
-
 strict: true
 
 network: defaults
@@ -38,6 +32,12 @@ safe-outputs:
     title-prefix: "[auto-fix] "
     labels: [bug, ci-failure, automated-fix]
     assignees: [copilot]
+
+permissions:
+  actions: read
+  contents: write
+  issues: write
+  pull-requests: write
 
 timeout-minutes: 30
 ---
@@ -168,7 +168,7 @@ Limit file fetching to files that are directly implicated by the error messages.
 Analyse the fetched file content against the error message to determine the minimal change needed:
 
 - **Compile error**: correct the syntax, missing member, type mismatch, or namespace import at the exact location reported.
-- **Test failure**: if the test expectation is wrong (e.g., expected value changed legitimately), update the assertion; if the implementation is wrong, fix the implementation — prefer fixing implementation over tests unless the test is clearly outdated.
+- **Test failure**: if the test expectation is wrong (e.g., expected value changed legitimately), update the assertion; if the implementation is wrong, fix the implementation — prefer fixing implementation when the observed behavior clearly violates the intended contract shown by surrounding code or naming.
 - **Dependency error**: update the version constraint or add the missing package reference in the appropriate project file.
 
 If the root cause cannot be determined with high confidence from the available information, do not guess — stop and note the limitation in the issue. A confident partial fix is acceptable; a speculative fix is not.
