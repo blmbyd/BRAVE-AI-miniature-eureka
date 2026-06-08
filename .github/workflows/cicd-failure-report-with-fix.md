@@ -176,7 +176,7 @@ If the root cause cannot be determined with high confidence from the available i
 If a fix was determined in step 3, use `safe-outputs.create-pull-request` to create the pull request. Provide:
 
 - A branch name of `auto-fix/ci-failure-run-${{ github.event.workflow_run.run_number }}`.
-- The base branch as the branch that failed (`${{ github.event.workflow_run.head_branch }}`).
+- The base branch as the branch name retrieved from the run details API call in the "Fetch run details" step above.
 - The full set of file changes (paths and new content) that address the root cause.
 - A commit message such as `fix: resolve .NET CI failure from run #${{ github.event.workflow_run.run_number }}`.
 
