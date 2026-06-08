@@ -130,3 +130,8 @@ gh aw run daily-public-repo-status -f target_repository=microsoft/vscode
 - 📖 [GitHub Agentic Workflows documentation](https://github.github.com/gh-aw/)
 - 🚀 [Quick Start Guide](https://github.github.com/gh-aw/setup/quick-start/)
 - 💡 [Example workflows collection](https://github.com/githubnext/agentics)
+
+## Share this repo
+
+<img width="500" height="500" alt="qr-code" src="https://github.com/user-attachments/assets/7b09e250-a94b-4f71-bde3-a31dd7b0fafe" />
+
