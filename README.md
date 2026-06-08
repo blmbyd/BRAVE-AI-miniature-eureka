@@ -53,7 +53,13 @@ Collects only issue activity from the past 7 days and publishes a GitHub Discuss
 
 Detects failed `.NET CI` workflow runs, collects job and step failure details, and creates a structured GitHub issue assigned to Copilot so the failure can be investigated and resolved — potentially automatically — without manual intervention. Runs that succeed, are cancelled, or time out produce no output.
 
-### 7. 🌐 Daily Status for Public Repository ([`daily-public-repo-status.md`](.github/workflows/daily-public-repo-status.md))
+### 7. 🛠️ CI/CD Failure Report with Automated Fix ([`cicd-failure-report-with-fix.md`](.github/workflows/cicd-failure-report-with-fix.md))
+
+**Trigger:** Automatically runs whenever the `.NET CI` workflow completes with a `failure` conclusion.
+
+Extended version of the CI/CD Failure Report. In addition to creating a structured GitHub issue (identical to workflow 6), it attempts to diagnose the root cause from the job logs, fetch the relevant source files, and open a pull request with a targeted code fix. The fix PR is only created when the agent has high confidence in the correction — for ambiguous or infrastructure failures it falls back to the issue-only report with an explanation. Requires the same `GH_AW_AGENT_TOKEN` secret as the base report, with `contents: write` and `pull-requests: write` in scope.
+
+### 8. 🌐 Daily Status for Public Repository ([`daily-public-repo-status.md`](.github/workflows/daily-public-repo-status.md))
 
 **Trigger:** Manually via `workflow_dispatch` — requires a `target_repository` input in `owner/repo` format.
 
@@ -73,7 +79,7 @@ Accepts any public GitHub repository as an input and collects the past 24 hours 
 - Access to GitHub Agentic Workflows (currently in technical preview — sign up at <https://github.github.com/gh-aw/> — if the link returns a 404, the preview may not yet be available in your region; check the [GitHub Changelog](https://github.blog/changelog/) for the latest availability updates)
 - An AI model configured (GitHub Copilot, Anthropic Claude, or another supported provider)
 - Initialize the repository after installing the extension: `gh aw init`
-- **For `cicd-failure-report.md` only:** A fine-grained personal access token stored as the `GH_AW_AGENT_TOKEN` repository secret with `actions: read`, `contents: write`, `issues: write`, and `pull-requests: write` scopes. This is required for Copilot issue assignment; the default `GITHUB_TOKEN` does not have sufficient permissions. The Copilot coding agent must also be enabled for the repository or organization.
+- **For `cicd-failure-report.md` and `cicd-failure-report-with-fix.md`:** A fine-grained personal access token stored as the `GH_AW_AGENT_TOKEN` repository secret with `actions: read`, `contents: write`, `issues: write`, and `pull-requests: write` scopes. This is required for Copilot issue assignment and automated PR creation; the default `GITHUB_TOKEN` does not have sufficient permissions. The Copilot coding agent must also be enabled for the repository or organization.
 
 ### Setup
 
@@ -99,12 +105,13 @@ Accepts any public GitHub repository as an input and collects the past 24 hours 
    gh aw compile .github/workflows/weekly-issue-status-discussions.md
    gh aw compile .github/workflows/pr-reviewer.md
    gh aw compile .github/workflows/cicd-failure-report.md
+   gh aw compile .github/workflows/cicd-failure-report-with-fix.md
    gh aw compile .github/workflows/daily-public-repo-status.md
    ```
 
    > Note: `daily-repo-status-discussions.md` and `weekly-issue-status-discussions.md` require GitHub Discussions to be enabled on the repository and an announcement-capable `announcements` category to exist.
    >
-   > Note: `cicd-failure-report.md` will only trigger when a workflow named exactly `.NET CI` is present on the repository's default branch. If your CI workflow has a different name, update the `workflows:` list in the frontmatter before compiling.
+   > Note: `cicd-failure-report.md` and `cicd-failure-report-with-fix.md` will only trigger when a workflow named exactly `.NET CI` is present on the repository's default branch. If your CI workflow has a different name, update the `workflows:` list in the frontmatter before compiling.
 
 4. **Commit and push** the generated `.lock.yml` files:
 
