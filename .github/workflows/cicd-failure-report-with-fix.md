@@ -5,7 +5,8 @@ description: |
   issue assigned to Copilot and attempts to produce an automated code fix
   delivered as a pull request. Collects workflow metadata, failed job and step
   details, and the relevant source-code context needed to propose a targeted
-  fix. Requires the GH_AW_AGENT_TOKEN repository secret (fine-grained PAT with
+  fix. Issue and PR creation are performed via safe-outputs (strict mode).
+  Requires the GH_AW_AGENT_TOKEN repository secret (fine-grained PAT with
   actions: read, contents: write, issues: write, pull-requests: write) for
   Copilot issue assignment and PR creation to work.
 
@@ -35,8 +36,7 @@ safe-outputs:
 
 permissions:
   actions: read
-  issues: write
-  pull-requests: write
+  contents: write
 
 timeout-minutes: 30
 ---
