@@ -19,12 +19,13 @@ permissions:
   issues: read
   pull-requests: read
 
+strict: true
+
 network: defaults
 
 tools:
   github:
     toolsets: [issues, pull_requests, repos]
-    lockdown: false
 
 safe-outputs:
   create-issue:

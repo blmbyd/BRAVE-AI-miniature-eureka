@@ -13,12 +13,13 @@ permissions:
   contents: read
   issues: read
 
+strict: true
+
 network: defaults
 
 tools:
   github:
     toolsets: [issues]
-    lockdown: false
 
 safe-outputs:
   create-discussion:
